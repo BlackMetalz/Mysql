@@ -49,3 +49,14 @@ service mysqld start
 mysql -V
 ```
 
+- Step 6 - Login into mysql with command
+```
+mysql -u root -p
+```
+with password grep from temporary
+
+then do command for change password first time!
+```
+SET PASSWORD = PASSWORD('your_new_password');
+```
+
