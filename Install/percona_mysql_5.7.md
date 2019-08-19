@@ -61,20 +61,20 @@ For RHEL or CentOS:
 sudo yum install percona-toolkit
 `
 
-### Install percona for Ubuntu 18
+### 3. Install percona for Ubuntu 18
 
-## Fetch the repository packages from Percona web:
+## 3.1 Fetch the repository packages from Percona web:
 
 ```
 wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
 ```
 
-## Remember to update the local cache
+## 3.2 Remember to update the local cache
 ```
 apt update
 ```
 
-## After that you can install the server package
+## 3.3 After that you can install the server package
 ```
 apt-get install percona-server-server-5.7
 ```
