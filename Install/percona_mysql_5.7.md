@@ -63,10 +63,11 @@ sudo yum install percona-toolkit
 
 ### 3. Install percona for Ubuntu 18
 
-## 3.1 Fetch the repository packages from Percona web:
+## 3.1 Fetch the repository packages from Percona web and install
 
 ```
 wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
+dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
 ```
 
 ## 3.2 Remember to update the local cache
