@@ -23,7 +23,7 @@ to something like
 
 3. Sync data
 ```
-cp - /var/lib/mysql/  /data/var/lib/mysql
+cp -r /var/lib/mysql/  /data/var/lib/mysql
 ```
 
 4. Make sure ever config in my.cnf exists in new location
