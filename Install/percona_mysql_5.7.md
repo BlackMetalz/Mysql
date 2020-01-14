@@ -3,7 +3,7 @@
 ### 1.1 Installing Percona Server from Percona yum repository
 
 `
-$ yum install https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+yum install https://repo.percona.com/yum/percona-release-latest.noarch.rpm -y
 `
 
 Output example
@@ -42,7 +42,7 @@ Percona-Server-tokudb-57.x86_64         5.7.10-3.1.el7                 @percona-
 You can now install Percona Server by running:
 
 `
-yum install Percona-Server-server-57
+yum install Percona-Server-server-57 -y
 `
 
 
@@ -52,13 +52,13 @@ Description: Toolkit have some advantage for manage mysql server
 For Debian or Ubuntu:
 
 `
-sudo apt-get install percona-toolkit
+apt-get install percona-toolkit -y
 `
 
 For RHEL or CentOS:
 
 `
-sudo yum install percona-toolkit
+yum install percona-toolkit -y
 `
 
 ### 3. Install percona for Ubuntu 18
