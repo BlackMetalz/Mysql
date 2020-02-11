@@ -165,6 +165,9 @@ mysql >    start slave;
 mysql sock
 ln -s /data/var/lib/mysql/mysql.sock /var/lib/mysql/
 
-Master:
+Master: 
+( Need database test available and run this command pt-heartbeat -D test --create-table --check --master-server-id 23191 )
+while 23191 is your server-id in my.cnf 
+
 perl /usr/bin/pt-heartbeat -D test --update --daemonize
 ```
