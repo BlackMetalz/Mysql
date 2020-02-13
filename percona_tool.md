@@ -4,7 +4,7 @@
 --execute : for real
 
 ```
-pt-online-schema-change --defaults-file=/root/.my.cnf --alter="add column group_id bigint(20)" D=db_name,t=table_name  --dry-run
+pt-online-schema-change --defaults-file=/root/.my.cnf --alter="add column your_column_name bigint(20)" D=ur_db_name,t=ur_tbl_name  --dry-run
 ```
 
 - Add indexes:
@@ -15,5 +15,5 @@ pt-online-schema-change --defaults-file=/root/.my.cnf --alter="add index idx_use
 
 - Alter column
 ```
-pt-online-schema-change --defaults-file=/root/.my.cnf --alter="modify group_id bigint(20) default 1" D=db_name,t=table_name  --dry-run
+pt-online-schema-change --defaults-file=/root/.my.cnf --alter="modify your_column_name bigint(20) default 1" D=ur_db_name,t=ur_tbl_name  --dry-run
 ```
