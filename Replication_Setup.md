@@ -1,6 +1,6 @@
-# Config Mysql Replication Master-Slave
+# Config Mysql Replication Master-Slave simple. Required binlog enable
 - Update config in master : my.cnf
-```bash
+```
 server-id=1
 log-bin=mysql-bin
 ```
@@ -46,11 +46,9 @@ LOG FILE with LOG POS grep from
 head mysqldump.sql -n80 | grep "MASTER_LOG_POS"
 ```
 
-Done. This is basic setup Mysql Replication for single database with size is not too big. ( Recommend for <= 500Mb )
+Done. This is basic setup Mysql Replication for single database with size is not too big.
 
-
-
-# replication for big data > 100G ( in my case 1.2Tb raw data )
+# replication for big data ( in my case 1.2Tb raw data )
 
 Config mysql file like this. /data of mine is 4Tb and i do have 16Gb Ram for this slave ( master 128Gb ). So i can set
 innodb-buffer-pool-size = 12G
@@ -72,7 +70,6 @@ pid-file                       = /data/var/lib/mysql/mysql.pid
 
 # MyISAM #
 key-buffer-size                = 32M
-#myisam-recover                 = FORCE,BACKUP
 
 # SAFETY #
 max-allowed-packet             = 16M
@@ -89,14 +86,8 @@ datadir                        = /data/var/lib/mysql/
 log-bin                        = /data/var/log/mysql/mysql-bin/mysql-bin
 expire-logs-days               = 1
 sync-binlog                    = 0
-server-id                      = 4835
+server-id                      = 0254
 log_bin_trust_function_creators = 1
-
-# REPLICATION #
-#event-scheduler                 = 0
-#read-only                       = 1
-#skip-slave-start                = 1
-#relay-log                       = /data/var/log/mysql/relay-bin/relay-bin
 
 # CACHES AND LIMITS #
 tmp-table-size                 = 32M
@@ -125,49 +116,87 @@ log-error                      = /data/var/log/mysql/mysql-error.log
 log-queries-not-using-indexes  = 1
 slow-query-log                 = 1
 slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
-#long_query_time = 10
 ```
 
 
 Step by step:
+Master IP: 10.0.0.254
+Slave IP: 10.5.0.253
 
+Step 1:
+Slave
 ```
-Delete slave data before sync
-slave:
+Delete /data/var/lib/mysql in slave data before sync
 cd /data/var/lib/mysql 
 nc -l 9999 | xbstream -xv
+```
 
-master:
-innobackupex --stream=xbstream --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.1 9999
+Step 2:
+Master
+```
+innobackupex --stream=xbstream --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.253 9999
 -> completed OK - là ok
+```
 
-slave:
+Step 3:
+Slave
+```
 innobackupex --apply-log --use-memory=10G --tmpdir=/data/temp /data/var/lib/mysql
+```
 
-master:
-mysql -e "create user repl@10.5.0.1 identified by '123123';"
-mysql -e "GRANT REPLICATION SLAVE ON *.* TO repl@10.5.0.1;"
-mysql -e "flush privileges;"
-
-slave:
-chown -R mysql: /data/var/lib/mysql
-systemctl start mysqld
-
-check binlog:
-cat /data/var/lib/mysql/xtrabackup_binlog_info
-mysql-bin.007965        1067196635
-
+Step 4:
+Master
+```
 mysql
-mysql > change master to master_host='192.168.1.1',master_user='repl',master_password='123123',master_log_file='mysql-bin.007965',master_log_pos=1067196635;
-mysql >    start slave;
+create user repl@10.5.0.253 identified by 'slavepassword';
+GRANT REPLICATION SLAVE ON *.* TO repl@10.5.0.253;
+flush privileges;
+```
 
+Step 5
+Slave:
+```
+chown -R mysql: /data/var/lib/mysql
+systemctl start mysql
+```
 
-mysql sock
+Step 6:
+Slave:
+check binlog for master_log_file and master_log_pos
+```
+cat /data/var/lib/mysql/xtrabackup_binlog_info
+
+Output example:
+mysql-bin.007965        1067196635
+```
+
+Step 7:
+Slave:
+mysql
+```
+change master to master_host='10.5.0.254',master_user='repl',master_password='slavepassword',master_log_file='mysql-bin.007965',master_log_pos=1067196635;
+start slave;
+```
+
+-- In case use mysql sock to login
+```
 ln -s /data/var/lib/mysql/mysql.sock /var/lib/mysql/
+```
 
 Master: 
-( Need database test available and run this command pt-heartbeat -D test --create-table --check --master-server-id 23191 )
-while 23191 is your server-id in my.cnf 
-
+( Need database test available and run this command pt-heartbeat -D test --create-table --check --master-server-id 0254 )
+while 0254 is your server-id in my.cnf 
+```
 perl /usr/bin/pt-heartbeat -D test --update --daemonize
 ```
+
+-- For setup slave from slave in case of you don't want to clone direct from master ( setup 2nd slave )
+You only need to change steps belows:
+
+- In step 2: add --slave-info into command
+```
+innobackupex --stream=xbstream --slave-info --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.253 9999
+```
+- Step 6:
+check binlog for master_log_file and master_log_pos. 
+Cat file xtrabackup_slave_info instead of xtrabackup_binlog_info
