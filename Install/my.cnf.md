@@ -1,4 +1,13 @@
 -- Demo
+-- Have to create folder first
+
+innodb-buffer-pool-size = 80% Server RAM
+
+
+```
+mkdir -p /data/var/lib/mysql
+mkdir -p /data/var/log/mysql-bin
+```
 
 ```
 
