@@ -1,4 +1,4 @@
-### Linux
+### Centos
 - Step 1 – Enable MySQL Repository:
 ```
 -- On CentOS and RHEL 7 -- 
@@ -60,3 +60,9 @@ then do command for change password first time!
 SET PASSWORD = PASSWORD('your_new_password');
 ```
 
+### Ubuntu 18
+- Default on Ubuntu 18 is 5.7
+```
+apt update
+apt install mysql-server -y
+```
