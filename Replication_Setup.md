@@ -48,7 +48,7 @@ head mysqldump.sql -n80 | grep "MASTER_LOG_POS"
 
 Done. This is basic setup Mysql Replication for single database with size is not too big.
 
-# replication for big data ( in my case 1.2Tb raw data )
+# Setup Replication for whole Mysql Server
 
 Config mysql file like this. /data of mine is 4Tb and i do have 16Gb Ram for this slave ( master 128Gb ). So i can set
 innodb-buffer-pool-size = 12G
@@ -190,13 +190,14 @@ while 0254 is your server-id in my.cnf
 perl /usr/bin/pt-heartbeat -D test --update --daemonize
 ```
 
--- For setup slave from slave in case of you don't want to clone direct from master ( setup 2nd slave )
+## For setup slave from slave in case of you don't want to clone direct from master ( setup 2nd slave )
 You only need to change steps belows:
 
 - In step 2: add --slave-info into command
 ```
 innobackupex --stream=xbstream --slave-info --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.253 9999
 ```
+
 - Step 6:
 check binlog for master_log_file and master_log_pos. 
 Cat file xtrabackup_slave_info instead of xtrabackup_binlog_info
