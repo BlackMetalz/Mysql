@@ -53,12 +53,14 @@ For Debian or Ubuntu:
 
 `
 apt-get install percona-toolkit -y
+apt install percona-xtrabackup -y
 `
 
 For RHEL or CentOS:
 
 `
 yum install percona-toolkit -y
+yum install percona-xtrabackup -y
 `
 
 ### 3. Install percona for Ubuntu 18
