@@ -78,5 +78,5 @@ apt update
 
 ## 3.3 After that you can install the server package
 ```
-apt-get install percona-server-server-5.7
+apt-get install percona-server-server-5.7 -y
 ```
