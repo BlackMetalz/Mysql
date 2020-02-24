@@ -67,6 +67,7 @@ yum install percona-toolkit percona-xtrabackup -y
 
 ```
 wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
+apt install gnupg2 -y
 dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
 ```
 
