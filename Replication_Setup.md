@@ -53,6 +53,8 @@ Done. This is basic setup Mysql Replication for single database with size is not
 Config mysql file like this. /data of mine is 4Tb and i do have 16Gb Ram for this slave ( master 128Gb ). So i can set
 innodb-buffer-pool-size = 12G
 It is important to create all folder in config file before start mysql and installed percona tool for mysql server, i also used percona server 5.7 in this case 
+
+If server is ubuntu. Copy this to /etc/mysql/conf.d/mysql.cnf
 ```
 [mysql]
 
@@ -123,6 +125,8 @@ slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
 mkdir -p /data/var/lib/mysql
 mkdir -p /data/var/log/mysql/mysql-bin/
 ```
+
+
 
 
 Step by step:
