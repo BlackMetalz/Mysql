@@ -118,6 +118,12 @@ slow-query-log                 = 1
 slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
 ```
 
+-- Create folder for change data dir mysql
+```
+mkdir -p /data/var/lib/mysql
+mkdir -p /data/var/log/mysql/mysql-bin/
+```
+
 
 Step by step:
 Master IP: 10.0.0.254
