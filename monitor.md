@@ -23,6 +23,4 @@ MySQL::processlist::states_count /usr/lib/nagios/plugins/pmp-check-mysql-process
 MySQL::processlist::max_user_conn /usr/lib/nagios/plugins/pmp-check-mysql-processlist -C max_user_conn
 MySQL::replication-delay /usr/lib/nagios/plugins/pmp-check-mysql-replication-delay -T test.heartbeat -s 2343 -w 600 -c 900
 MySQL::replication-running /usr/lib/nagios/plugins/pmp-check-mysql-replication-running
-#MySQL::connection /opt/check_connections_mysql.sh -w 450 -c 490
-#MySQL::live /opt/mysql_check_live.sh
 ```
