@@ -117,7 +117,7 @@ flush privileges;
 Step 5
 Slave:
 ```
-chown -R mysql: /data/var/lib/mysql
+chown -R mysql: /data/var/
 systemctl start mysql
 ```
 
