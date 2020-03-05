@@ -52,13 +52,13 @@ Description: Toolkit have some advantage for manage mysql server
 For Debian or Ubuntu:
 
 ```
-apt install percona-toolkit percona-xtrabackup -y
+apt install percona-toolkit percona-xtrabackup-24 -y
 ```
 
 For RHEL or CentOS:
 
 ```
-yum install percona-toolkit percona-xtrabackup -y
+yum install percona-toolkit percona-xtrabackup-24 -y
 ```
 
 ### 3. Install percona for Ubuntu 18
