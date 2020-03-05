@@ -4,7 +4,15 @@ Config mysql file like this. /data of mine is 4Tb and i do have 16Gb Ram for thi
 innodb-buffer-pool-size = 12G
 It is important to create all folder in config file before start mysql and installed percona tool for mysql server, i also used percona server 5.7 in this case 
 
-If server is ubuntu. Copy this to /etc/mysql/conf.d/mysql.cnf
+If server is ubuntu. Copy this to /etc/mysql/conf.d/mysql.cnf ( mysql community server 5.7 )
+/etc/mysql/percona-server.conf.d/mysqld.cnf ( percona server 5.7 )
+
+-- Create folder for change data dir mysql
+```
+mkdir -p /data/var/lib/mysql
+mkdir -p /data/var/log/mysql/mysql-bin/
+```
+
 ```
 [mysql]
 
@@ -70,12 +78,6 @@ slow-query-log                 = 1
 slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
 ```
 
--- Create folder for change data dir mysql
-```
-mkdir -p /data/var/lib/mysql
-mkdir -p /data/var/log/mysql/mysql-bin/
-```
-
 Step by step:
 Master IP: 10.0.0.254
 Slave IP: 10.5.0.253
@@ -92,7 +94,7 @@ Step 2:
 Master
 ```
 innobackupex --stream=xbstream --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.253 9999
--> completed OK - là ok
+-> completed OK => ok
 ```
 
 Step 3:
