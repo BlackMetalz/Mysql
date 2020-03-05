@@ -11,6 +11,8 @@ If server is ubuntu. Copy this to /etc/mysql/conf.d/mysql.cnf ( mysql community 
 ```
 mkdir -p /data/var/lib/mysql
 mkdir -p /data/var/log/mysql/mysql-bin/
+mkdir -p /data/temp
+
 ```
 
 ```
