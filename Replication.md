@@ -1,3 +1,45 @@
+Slave:
+check binlog for master_log_file and master_log_pos
+```
+cat /data/var/lib/mysql/xtrabackup_binlog_info
+
+Output example:
+mysql-bin.007965        1067196635
+```
+
+Step 7:
+Slave:
+mysql
+```
+change master to master_host='10.5.0.254',master_user='repl',master_password='slavepassword',master_log_file='mysql-bin.007965',master_log_pos=1067196635;
+start slave;
+```
+
+-- In case use mysql sock to login
+```
+ln -s /data/var/lib/mysql/mysql.sock /var/lib/mysql/
+```
+
+Master: 
+( Need database test available and run this command pt-heartbeat -D test --create-table --check --master-server-id 0254 )
+while 0254 is your server-id in my.cnf 
+```
+perl /usr/bin/pt-heartbeat -D test --update --daemonize
+```
+
+## For setup slave from slave in case of you don't want to clone direct from master ( setup 2nd slave )
+You only need to change steps belows:
+
+- In step 2: add --slave-info into command
+```
+innobackupex --stream=xbstream --slave-info --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.253 9999
+```
+
+- Step 6:
+check binlog for master_log_file and master_log_pos. 
+Cat file xtrabackup_slave_info instead of xtrabackup_binlog_info
+
+
 # Config Mysql Replication Master-Slave simple. Required binlog enable
 - Update config in master : my.cnf
 ```
@@ -171,43 +213,4 @@ systemctl start mysql
 ```
 
 Step 6:
-Slave:
-check binlog for master_log_file and master_log_pos
-```
-cat /data/var/lib/mysql/xtrabackup_binlog_info
 
-Output example:
-mysql-bin.007965        1067196635
-```
-
-Step 7:
-Slave:
-mysql
-```
-change master to master_host='10.5.0.254',master_user='repl',master_password='slavepassword',master_log_file='mysql-bin.007965',master_log_pos=1067196635;
-start slave;
-```
-
--- In case use mysql sock to login
-```
-ln -s /data/var/lib/mysql/mysql.sock /var/lib/mysql/
-```
-
-Master: 
-( Need database test available and run this command pt-heartbeat -D test --create-table --check --master-server-id 0254 )
-while 0254 is your server-id in my.cnf 
-```
-perl /usr/bin/pt-heartbeat -D test --update --daemonize
-```
-
-## For setup slave from slave in case of you don't want to clone direct from master ( setup 2nd slave )
-You only need to change steps belows:
-
-- In step 2: add --slave-info into command
-```
-innobackupex --stream=xbstream --slave-info --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.253 9999
-```
-
-- Step 6:
-check binlog for master_log_file and master_log_pos. 
-Cat file xtrabackup_slave_info instead of xtrabackup_binlog_info
