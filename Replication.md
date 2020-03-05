@@ -1,3 +1,125 @@
+# Setup Replication for whole Mysql Server
+
+Config mysql file like this. /data of mine is 4Tb and i do have 16Gb Ram for this slave ( master 128Gb ). So i can set
+innodb-buffer-pool-size = 12G
+It is important to create all folder in config file before start mysql and installed percona tool for mysql server, i also used percona server 5.7 in this case 
+
+If server is ubuntu. Copy this to /etc/mysql/conf.d/mysql.cnf
+```
+[mysql]
+
+# CLIENT #
+port                           = 3306
+socket                         = /data/var/lib/mysql/mysql.sock
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default-storage-engine         = InnoDB
+socket                         = /data/var/lib/mysql/mysql.sock
+pid-file                       = /data/var/lib/mysql/mysql.pid
+
+# MyISAM #
+key-buffer-size                = 32M
+
+# SAFETY #
+max-allowed-packet             = 16M
+max-connect-errors             = 1000000
+skip-name-resolve
+sysdate-is-now                 = 1
+secure-file-priv = ""
+sql_mode                       = "STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+# DATA STORAGE #
+datadir                        = /data/var/lib/mysql/
+
+# BINARY LOGGING #
+log-bin                        = /data/var/log/mysql/mysql-bin/mysql-bin
+expire-logs-days               = 1
+sync-binlog                    = 0
+server-id                      = 0254
+log_bin_trust_function_creators = 1
+
+# CACHES AND LIMITS #
+tmp-table-size                 = 32M
+max-heap-table-size            = 32M
+query-cache-type               = 0
+query-cache-size               = 0
+max-connections                = 500
+thread-cache-size              = 50
+open-files-limit               = 65535
+table-definition-cache         = 4096
+table-open-cache               = 4096
+
+# INNODB #
+innodb-flush-method            = O_DIRECT
+innodb-log-files-in-group      = 2
+innodb-log-file-size           = 256M
+innodb-flush-log-at-trx-commit = 0
+innodb-file-per-table          = 1
+innodb-buffer-pool-size        = 12G
+#innodb-io-capacity             = 2000
+#innodb-page-size               = 4K #Best optimize for SSD, Default: 16K, Bug with index key larger 768 bytes
+#innodb_force_recovery = 2
+
+# LOGGING #
+log-error                      = /data/var/log/mysql/mysql-error.log
+log-queries-not-using-indexes  = 1
+slow-query-log                 = 1
+slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
+```
+
+-- Create folder for change data dir mysql
+```
+mkdir -p /data/var/lib/mysql
+mkdir -p /data/var/log/mysql/mysql-bin/
+```
+
+Step by step:
+Master IP: 10.0.0.254
+Slave IP: 10.5.0.253
+
+Step 1:
+Slave
+```
+Delete /data/var/lib/mysql in slave data before sync
+cd /data/var/lib/mysql 
+nc -l 9999 | xbstream -xv
+```
+
+Step 2:
+Master
+```
+innobackupex --stream=xbstream --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.253 9999
+-> completed OK - là ok
+```
+
+Step 3:
+Slave
+```
+innobackupex --apply-log --use-memory=10G --tmpdir=/data/temp /data/var/lib/mysql
+```
+
+Step 4:
+Master
+```
+mysql
+create user repl@10.5.0.253 identified by 'slavepassword';
+GRANT REPLICATION SLAVE ON *.* TO repl@10.5.0.253;
+flush privileges;
+```
+
+Step 5
+Slave:
+```
+chown -R mysql: /data/var/lib/mysql
+systemctl start mysql
+```
+
+Step 6:
+
+
 Slave:
 check binlog for master_log_file and master_log_pos
 ```
@@ -90,127 +212,4 @@ head mysqldump.sql -n80 | grep "MASTER_LOG_POS"
 
 Done. This is basic setup Mysql Replication for single database with size is not too big.
 
-# Setup Replication for whole Mysql Server
-
-Config mysql file like this. /data of mine is 4Tb and i do have 16Gb Ram for this slave ( master 128Gb ). So i can set
-innodb-buffer-pool-size = 12G
-It is important to create all folder in config file before start mysql and installed percona tool for mysql server, i also used percona server 5.7 in this case 
-
-If server is ubuntu. Copy this to /etc/mysql/conf.d/mysql.cnf
-```
-[mysql]
-
-# CLIENT #
-port                           = 3306
-socket                         = /data/var/lib/mysql/mysql.sock
-
-[mysqld]
-
-# GENERAL #
-user                           = mysql
-default-storage-engine         = InnoDB
-socket                         = /data/var/lib/mysql/mysql.sock
-pid-file                       = /data/var/lib/mysql/mysql.pid
-
-# MyISAM #
-key-buffer-size                = 32M
-
-# SAFETY #
-max-allowed-packet             = 16M
-max-connect-errors             = 1000000
-skip-name-resolve
-sysdate-is-now                 = 1
-secure-file-priv = ""
-sql_mode                       = "STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
-
-# DATA STORAGE #
-datadir                        = /data/var/lib/mysql/
-
-# BINARY LOGGING #
-log-bin                        = /data/var/log/mysql/mysql-bin/mysql-bin
-expire-logs-days               = 1
-sync-binlog                    = 0
-server-id                      = 0254
-log_bin_trust_function_creators = 1
-
-# CACHES AND LIMITS #
-tmp-table-size                 = 32M
-max-heap-table-size            = 32M
-query-cache-type               = 0
-query-cache-size               = 0
-max-connections                = 500
-thread-cache-size              = 50
-open-files-limit               = 65535
-table-definition-cache         = 4096
-table-open-cache               = 4096
-
-# INNODB #
-innodb-flush-method            = O_DIRECT
-innodb-log-files-in-group      = 2
-innodb-log-file-size           = 256M
-innodb-flush-log-at-trx-commit = 0
-innodb-file-per-table          = 1
-innodb-buffer-pool-size        = 12G
-#innodb-io-capacity             = 2000
-#innodb-page-size               = 4K #Best optimize for SSD, Default: 16K, Bug with index key larger 768 bytes
-#innodb_force_recovery = 2
-
-# LOGGING #
-log-error                      = /data/var/log/mysql/mysql-error.log
-log-queries-not-using-indexes  = 1
-slow-query-log                 = 1
-slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
-```
-
--- Create folder for change data dir mysql
-```
-mkdir -p /data/var/lib/mysql
-mkdir -p /data/var/log/mysql/mysql-bin/
-```
-
-
-
-
-Step by step:
-Master IP: 10.0.0.254
-Slave IP: 10.5.0.253
-
-Step 1:
-Slave
-```
-Delete /data/var/lib/mysql in slave data before sync
-cd /data/var/lib/mysql 
-nc -l 9999 | xbstream -xv
-```
-
-Step 2:
-Master
-```
-innobackupex --stream=xbstream --tmpdir=/data/temp/ /data/temp/ | nc 10.5.0.253 9999
--> completed OK - là ok
-```
-
-Step 3:
-Slave
-```
-innobackupex --apply-log --use-memory=10G --tmpdir=/data/temp /data/var/lib/mysql
-```
-
-Step 4:
-Master
-```
-mysql
-create user repl@10.5.0.253 identified by 'slavepassword';
-GRANT REPLICATION SLAVE ON *.* TO repl@10.5.0.253;
-flush privileges;
-```
-
-Step 5
-Slave:
-```
-chown -R mysql: /data/var/lib/mysql
-systemctl start mysql
-```
-
-Step 6:
 
