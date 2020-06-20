@@ -166,6 +166,13 @@ check binlog for master_log_file and master_log_pos.
 Cat file xtrabackup_slave_info instead of xtrabackup_binlog_info
 
 
+## Setup Slave replication delay for disaster recovery:
+```
+pt-slave-delay --delay 6h --interval 15s localhost & 
+```
+- Delay 6 hours behind master
+
+
 # Config Mysql Replication Master-Slave simple. Required binlog enable
 - Update config in master : my.cnf
 ```
