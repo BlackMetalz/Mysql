@@ -22,3 +22,8 @@ pt-online-schema-change --alter="modify your_column_name bigint(20) default 1" D
 ```
 pt-online-schema-change --alter="drop column question_crc" D=wtf,t=tbl --dry-run
 ```
+
+- Rename primary key
+```
+pt-online-schema-change --alter="change id question_id int(11) NOT NULL AUTO_INCREMENT" D=test,t=wtf_tbl --execute --no-check-alter
+```
