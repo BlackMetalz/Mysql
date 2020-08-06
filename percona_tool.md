@@ -38,3 +38,8 @@ if error appear:
 2020-07-03T22:53:12 Error copying rows from `xxx`.`yyy` to `xxx`.`_yyy`: Threads_running=51 exceeds its critical threshold 50
 ```
 Increase it to higher value like 70 xD
+
+or use this option instead of max-load
+```
+--critical-load Threads_running=100
+```
