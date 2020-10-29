@@ -16,11 +16,11 @@ default-character-set          = utf8
 
 # GENERAL #
 user                           = mysql
-#default-storage-engine         = InnoDB
+default-storage-engine         = InnoDB
 socket                         = /data/var/lib/mysql/mysql.sock
 pid-file                       = /data/var/lib/mysql/mysql.pid
 bind-address                   = 0.0.0.0
-secure-file-priv               = ""
+
 
 # MyISAM #
 key-buffer-size                = 32M
