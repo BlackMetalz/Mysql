@@ -46,7 +46,7 @@ sql_mode                       = "STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO
 datadir                        = /data/var/lib/mysql/
 
 # BINARY LOGGING #
-log-bin                        = /data/var/log/mysql/mysql-bin/mysql-bin
+log-bin                        = /data/var/log/mysql/mysql-bin
 expire-logs-days               = 1
 sync-binlog                    = 0
 server-id                      = 0254
