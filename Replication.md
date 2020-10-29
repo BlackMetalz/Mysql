@@ -13,7 +13,7 @@ If server is ubuntu. Copy this https://github.com/BlackMetalz/Mysql/blob/master/
 mkdir -p /data/var/lib/mysql
 mkdir -p /data/var/log/mysql/mysql-bin/
 mkdir -p /data/temp
-chown -R mysql: /data/var/*
+chown -R mysql: /data/var/lib/mysql /data/var/log/mysql/
 ```
 
 Step by step:
