@@ -8,6 +8,15 @@ apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 # Check if /usr/sbin/mysqld is gone
 apparmor_status
 ```
+
+-- Create folder for change data dir mysql
+```
+mkdir -p /data/var/lib/mysql
+mkdir -p /data/var/log/mysql/mysql-bin/
+mkdir -p /data/temp
+chown -R mysql: /data/var/lib/mysql /data/var/log/mysql /data/temp
+```
+
 ```
 [client]
 socket                         = /data/var/lib/mysql/mysql.sock
