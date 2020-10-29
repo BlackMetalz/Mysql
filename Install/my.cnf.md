@@ -42,11 +42,11 @@ log_slave_updates
 server-id                      = 3336
 
 # CACHES AND LIMITS #
-tmpdir = /data/tmp
+tmpdir                         = /data/temp
 tmp-table-size                 = 32M
 max-heap-table-size            = 32M
-#query-cache-type               = 0
-#query-cache-size               = 0
+#query-cache-type              = 0
+#query-cache-size              = 0
 max-connections                = 1500
 thread-cache-size              = 50
 open-files-limit               = 65535
