@@ -1,6 +1,14 @@
 innodb-buffer-pool-size = 80% Server RAM
 
+Require for datadir changes since if in Ubuntu: Appamor fucked:
+
 ```
+ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
+apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
+# Check if /usr/sbin/mysqld is gone
+apparmor_status
+```
+
 [client]
 socket                         = /data/var/lib/mysql/mysql.sock
 default-character-set          = utf8
