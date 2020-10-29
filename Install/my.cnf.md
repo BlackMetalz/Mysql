@@ -19,7 +19,7 @@ user                           = mysql
 #default-storage-engine         = InnoDB
 socket                         = /data/var/lib/mysql/mysql.sock
 pid-file                       = /data/var/lib/mysql/mysql.pid
-bind-address                   = 172.26.33.36
+bind-address                   = 0.0.0.0
 secure-file-priv               = ""
 
 # MyISAM #
