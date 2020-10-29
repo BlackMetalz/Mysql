@@ -8,7 +8,7 @@ apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 # Check if /usr/sbin/mysqld is gone
 apparmor_status
 ```
-
+```
 [client]
 socket                         = /data/var/lib/mysql/mysql.sock
 default-character-set          = utf8
