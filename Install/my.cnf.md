@@ -1,29 +1,26 @@
--- Demo
--- Have to create folder first
-
 innodb-buffer-pool-size = 80% Server RAM
 
-
 ```
-mkdir -p /data/var/lib/mysql
-mkdir -p /data/var/log/mysql-bin
-```
-
-```
+[client]
+socket                         = /data/var/lib/mysql/mysql.sock
+default-character-set          = utf8
 
 [mysql]
 
 # CLIENT #
 port                           = 3306
 socket                         = /data/var/lib/mysql/mysql.sock
+default-character-set          = utf8
 
 [mysqld]
 
 # GENERAL #
 user                           = mysql
-default-storage-engine         = InnoDB
+#default-storage-engine         = InnoDB
 socket                         = /data/var/lib/mysql/mysql.sock
 pid-file                       = /data/var/lib/mysql/mysql.pid
+bind-address                   = 172.26.33.36
+secure-file-priv               = ""
 
 # MyISAM #
 key-buffer-size                = 32M
@@ -33,57 +30,49 @@ myisam-recover-options         = FORCE,BACKUP
 max-allowed-packet             = 16M
 max-connect-errors             = 1000000
 skip-name-resolve
-sysdate-is-now                 = 1
-#innodb                         = FORCE
-#sql-mode                       = "ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
-secure-file-priv               = ""
 
 # DATA STORAGE #
 datadir                        = /data/var/lib/mysql/
 
 # BINARY LOGGING #
 log-bin                        = /data/var/log/mysql/mysql-bin/mysql-bin
-expire-logs-days               = 1
-sync-binlog                    = 0
-server-id                      = 12
-log_bin_trust_function_creators = 1
-
-# REPLICATION #
-#event-scheduler               = 0
-#read-only                      = 1
-#skip-slave-start               = 1
-#relay-log                      = /data/var/log/mysql/relay-bin/relay-bin
-#slave-parallel-type            = LOGICAL_CLOCK
-#slave-parallel-workers         = 8
+expire-logs-days               = 3
+log-bin
+log_slave_updates
+server-id                      = 3336
 
 # CACHES AND LIMITS #
+tmpdir = /data/tmp
 tmp-table-size                 = 32M
 max-heap-table-size            = 32M
-query-cache-type               = 0
-query-cache-size               = 0
-max-connections                = 500
+#query-cache-type               = 0
+#query-cache-size               = 0
+max-connections                = 1500
 thread-cache-size              = 50
 open-files-limit               = 65535
-table-definition-cache         = 4096
-table-open-cache               = 4096
+table-definition-cache         = 1024
+table-open-cache               = 2048
+query-cache-size               = 0
+query-cache-type               = 0
 
 # INNODB #
 innodb-flush-method            = O_DIRECT
 innodb-log-files-in-group      = 2
-innodb-log-file-size           = 512M
+innodb-log-file-size           = 256M
 innodb-flush-log-at-trx-commit = 2
 innodb-file-per-table          = 1
-innodb-buffer-pool-size        = 12G
+innodb-buffer-pool-size        = 3G
+innodb-doublewrite             = 0
 innodb-io-capacity             = 2000
-innodb-flush-log-at-timeout    = 1800
-slave-parallel-type            = LOGICAL_CLOCK
-slave-parallel-workers         = 8
+innodb-io-capacity-max         = 10000
 
 # LOGGING #
 log-error                      = /data/var/log/mysql/mysql-error.log
-#log-queries-not-using-indexes  = 1
-slow-query-log                 = 0
-#long_query_time                = 0
+log-queries-not-using-indexes  = 1
+slow-query-log                 = 1
 slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links                 = 0
 
 ```
