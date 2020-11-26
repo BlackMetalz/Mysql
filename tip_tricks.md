@@ -43,3 +43,15 @@ mysql> select concat("SELECT * from mysql.user where user=","'",user,"' and host
 | SELECT * from mysql.user where user='orc_client' and host='10.3.48.56';             |
 | SELECT * from mysql.user where user='orc_client' and host='10.3.48.82';             |
 ```
+#### 2.1 Drop multiple account with same username
+```
+mysql> select concat("DROP USER ","'",user,"'@'",host,"';") from mysql.user where user='orc_client';
++-----------------------------------------------+
+| concat("DROP USER ","'",user,"'@'",host,"';") |
++-----------------------------------------------+
+| DROP USER 'orc_client'@'10.3.48.54';          |
+| DROP USER 'orc_client'@'10.3.48.56';          |
+| DROP USER 'orc_client'@'10.3.48.82';          |
++-----------------------------------------------+
+3 rows in set (0.00 sec)
+```
