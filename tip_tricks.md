@@ -1,4 +1,4 @@
--- Mysql Max openfile ( in case of use percona mysql server )
+### 1.Mysql Max openfile ( in case of use percona mysql server )
 ```
 [root@1234 ~]# cat /proc/1234567/limits
 Limit                     Soft Limit           Hard Limit           Units     
@@ -31,3 +31,15 @@ Add
 LimitNOFILE=900000
 ```
 into systemd mysql file: /lib/systemd/system/mysql.service
+
+
+### 2. Select multiple user based username
+```
+mysql> select concat("SELECT * from mysql.user where user=","'",user,"' and host=","'",host,"';") from mysql.user where user='orc_client';
++-------------------------------------------------------------------------------------+
+| concat("SELECT * from mysql.user where user=","'",user,"' and host=","'",host,"';") |
++-------------------------------------------------------------------------------------+
+| SELECT * from mysql.user where user='orc_client' and host='10.3.48.54';             |
+| SELECT * from mysql.user where user='orc_client' and host='10.3.48.56';             |
+| SELECT * from mysql.user where user='orc_client' and host='10.3.48.82';             |
+```
