@@ -130,5 +130,10 @@ sys-test-48-54.		0	IN	A	10.3.48.54
 
 Done
 
+6. Start discover:
 
+First error:
+```
+2020-11-26 17:18:04 ERROR Error 1146: Table 'meta.pseudo_gtid_status' doesn't exist
+```
 
