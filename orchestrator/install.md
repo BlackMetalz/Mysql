@@ -38,11 +38,46 @@ Run this in both Server: 10.3.48.54 and 10.3.48.56 is 2 mysql server in this exa
 CREATE USER 'orchestrator'@'10.3.48.54' IDENTIFIED BY '123123';
 GRANT SUPER, PROCESS, REPLICATION SLAVE, RELOAD ON *.* TO 'orchestrator'@'10.3.48.54';
 GRANT SELECT ON mysql.slave_master_info TO 'orchestrator'@'10.3.48.54';
+GRANT SUPER, PROCESS, REPLICATION SLAVE, REPLICATION CLIENT, RELOAD ON *.* TO 'orchestrator'@'10.3.48.54';
+GRANT SELECT ON meta.* TO 'orchestrator'@'10.3.48.54';
+
 CREATE USER 'orchestrator'@'10.3.48.56' IDENTIFIED BY '123123';
 GRANT SUPER, PROCESS, REPLICATION SLAVE, RELOAD ON *.* TO 'orchestrator'@'10.3.48.56';
 GRANT SELECT ON mysql.slave_master_info TO 'orchestrator'@'10.3.48.56';
+GRANT SUPER, PROCESS, REPLICATION SLAVE, REPLICATION CLIENT, RELOAD ON *.* TO 'orchestrator'@'10.3.48.56';
+GRANT SELECT ON meta.* TO 'orchestrator'@'10.3.48.56';
+
+
 FLUSH PRIVILEGES;
 ```
+note for for grants:
+```
+# GRANT SELECT ON ndbinfo.processes TO 'orchestrator'@'orc_host'; -- Only for NDB Cluster
+# GRANT SELECT ON performance_schema.replication_group_members TO 'orchestrator'@'orc_host'; -- Only for Group Replication / InnoDB cluster
+```
 
-4. 
+
+4. Discovery
+- Start the fucking orchestrator
+```
+service orchestrator start
+```
+
+Let orchestrator know how to query the MySQL topologies, what information to extract.
+```json
+{
+  "MySQLTopologyCredentialsConfigFile": "/etc/mysql/orchestrator-topology.cnf",
+  "InstancePollSeconds": 5,
+  "DiscoverByShowSlaveHosts": false,
+}
+```
+
+Setup credentials for topology file
+```
+[client]
+user=orchestrator
+password=123123
+```
+
+
 
