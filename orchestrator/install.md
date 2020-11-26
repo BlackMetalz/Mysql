@@ -30,3 +30,19 @@ for matching info in orchestrator config file:
   "MySQLOrchestratorDatabase": "orchestrator",
   "MySQLOrchestratorCredentialsConfigFile": "/etc/mysql/orchestrator_srv.cnf",
 ```
+
+3. Setup mysql topology user:
+Imagine we have 2 new fresh mysql server ( percona in this case ):
+Run this in both Server: 10.3.48.54 and 10.3.48.56 is 2 mysql server in this example
+```
+CREATE USER 'orchestrator'@'10.3.48.54' IDENTIFIED BY '123123';
+GRANT SUPER, PROCESS, REPLICATION SLAVE, RELOAD ON *.* TO 'orchestrator'@'10.3.48.54';
+GRANT SELECT ON mysql.slave_master_info TO 'orchestrator'@'10.3.48.54';
+CREATE USER 'orchestrator'@'10.3.48.56' IDENTIFIED BY '123123';
+GRANT SUPER, PROCESS, REPLICATION SLAVE, RELOAD ON *.* TO 'orchestrator'@'10.3.48.56';
+GRANT SELECT ON mysql.slave_master_info TO 'orchestrator'@'10.3.48.56';
+FLUSH PRIVILEGES;
+```
+
+4. 
+
