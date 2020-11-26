@@ -79,5 +79,39 @@ user=orchestrator
 password=123123
 ```
 
+5. DNS Resolver ( dnsmasq )
+Guide here: https://www.tecmint.com/setup-a-dns-dhcp-server-using-dnsmasq-on-centos-rhel/
+```
+apt install dnsmasq -y
+systemctl status dnsmasq
+systemctl enable dnsmasq
+```
+Insert to first line of /etc/resolv.conf
+```
+nameserver 127.0.0.1
+```
+
+Content of /etc/dnsmasq.conf:
+```
+interface=eth0
+listen-address=0.0.0.0,127.0.0.1
+cache-size=30
+# no-resolv
+server=8.8.4.4
+```
+
+Restart then use dig:
+```
+dig sys-test-48-54
+```
+
+Output:
+```
+;; ANSWER SECTION:
+sys-test-48-54.		0	IN	A	10.3.48.54
+```
+
+Done
+
 
 
