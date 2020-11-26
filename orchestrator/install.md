@@ -88,6 +88,14 @@ user=orchestrator
 password=123123
 ```
 
+in case it fucked: 
+Change config file to
+```
+  "MySQLTopologyUser": "orchestrator",
+  "MySQLTopologyPassword": "123123",
+  "MySQLTopologyCredentialsConfigFile": "",
+```
+
 5. DNS Resolver ( dnsmasq )
 Guide here: https://www.tecmint.com/setup-a-dns-dhcp-server-using-dnsmasq-on-centos-rhel/
 ```
