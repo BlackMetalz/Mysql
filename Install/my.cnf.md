@@ -68,7 +68,7 @@ tmp-table-size                 = 32M
 max-heap-table-size            = 32M
 #query-cache-type              = 0
 #query-cache-size              = 0
-max-connections                = 1500
+max-connections                = 15000
 thread-cache-size              = 50
 open-files-limit               = 65535
 table-definition-cache         = 1024
@@ -92,6 +92,9 @@ log-error                      = /data/var/log/mysql/mysql-error.log
 log-queries-not-using-indexes  = 1
 slow-query-log                 = 1
 slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
+general_log_file               = /data/var/log/mysql/query.log
+general_log                    = 1
+
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links                 = 0
