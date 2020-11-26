@@ -1,4 +1,7 @@
 ### Step by step 
+10.3.48.54 && 10.3.48.56 : Mysql server
+10.3.48.82: Orchestrator server and mysql backend for Orchestrator
+
 - Ubuntu 18 in this case
 
 1.
@@ -46,6 +49,12 @@ GRANT SUPER, PROCESS, REPLICATION SLAVE, RELOAD ON *.* TO 'orchestrator'@'10.3.4
 GRANT SELECT ON mysql.slave_master_info TO 'orchestrator'@'10.3.48.56';
 GRANT SUPER, PROCESS, REPLICATION SLAVE, REPLICATION CLIENT, RELOAD ON *.* TO 'orchestrator'@'10.3.48.56';
 GRANT SELECT ON meta.* TO 'orchestrator'@'10.3.48.56';
+
+CREATE USER 'orchestrator'@'10.3.48.82' IDENTIFIED BY '123123';
+GRANT SUPER, PROCESS, REPLICATION SLAVE, RELOAD ON *.* TO 'orchestrator'@'10.3.48.82';
+GRANT SELECT ON mysql.slave_master_info TO 'orchestrator'@'10.3.48.82';
+GRANT SUPER, PROCESS, REPLICATION SLAVE, REPLICATION CLIENT, RELOAD ON *.* TO 'orchestrator'@'10.3.48.82';
+GRANT SELECT ON meta.* TO 'orchestrator'@'10.3.48.82';
 
 
 FLUSH PRIVILEGES;
