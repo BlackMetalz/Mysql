@@ -9,6 +9,7 @@
 wget https://github.com/openark/orchestrator/releases/download/v3.2.3/orchestrator_3.2.3_amd64.deb
 apt install jq -y
 dpkg -i orchestrator_3.2.3_amd64.deb
+ln -s /usr/local/orchestrator/resources/bin/orchestrator-client /usr/bin/ # Install orchestrator cli
 ```
 
 2. Setup mysql backend server
