@@ -136,3 +136,23 @@ Done
 Import those files: https://github.com/BlackMetalz/Mysql/tree/master/orchestrator/mysql_files
 Discover in dashboard simple enter hostname of mysql
 
+7. Setup Repl use GTID:
+https://hevodata.com/learn/mysql-gtids-and-replication-set-up/
+Note:  Use following query 
+```
+create user 'repl_user'@'10.3.48.%' identified by '123123';
+Grant replication slave on *.* to 'repl_user'@'10.3.48.%';
+
+
+mysqldump --all-databases --flush-privileges --single-transaction --flush-logs --triggers --routines --events --hex-blob > mysqlbackup_dump.sql
+
+change master to master_host='10.3.48.54',master_port=3306,master_user='repl_user',master_password='123123',master_auto_position=1;
+```
+
+If re-import mysqlbackup dump error:
+```
+ERROR 1840 (HY000) at line 34: @@GLOBAL.GTID_PURGED can only be set when @@GLOBAL.GTID_EXECUTED is empty.
+If GTID-based replication is enabled, then use the following command to reset the master, and then restore the database.
+mysql> reset master;
+Reset the master before restoring each database.
+```
