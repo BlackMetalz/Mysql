@@ -156,3 +156,6 @@ If GTID-based replication is enabled, then use the following command to reset th
 mysql> reset master;
 Reset the master before restoring each database.
 ```
+
+8. Import DB Dump use sysbench
+
