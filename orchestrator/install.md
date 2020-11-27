@@ -132,8 +132,6 @@ Done
 
 6. Start discover:
 
-First error:
-```
-2020-11-26 17:18:04 ERROR Error 1146: Table 'meta.pseudo_gtid_status' doesn't exist
-```
+Import those files: https://github.com/BlackMetalz/Mysql/tree/master/orchestrator/mysql_files
+Discover in dashboard simple enter hostname of mysql
 
