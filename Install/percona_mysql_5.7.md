@@ -12,9 +12,9 @@ You can now install Percona Server by running:
 yum install Percona-Server-server-57 -y
 `
 
-### 3. Install percona for Ubuntu 18
+## 2. Install percona for Ubuntu 18
 
-## 3.1 Fetch the repository packages from Percona web and install
+### 2.1 Fetch the repository packages from Percona web and install
 
 ```
 wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
@@ -22,18 +22,18 @@ apt install gnupg2 -y
 dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
 ```
 
-## 3.2 Remember to update the local cache
+### 2.2 Remember to update the local cache
 ```
 apt update
 ```
 
-## 3.3 After that you can install the server package
+### 2.3 After that you can install the server package
 ```
 apt-get install percona-server-server-5.7 -y
 ```
 
 
-## 2. Install Percona Toolkit using the corresponding package manager:
+### Install Percona Toolkit using the corresponding package manager:
 Description: Toolkit have some advantage for manage mysql server
 
 For Debian or Ubuntu:
