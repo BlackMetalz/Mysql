@@ -17,7 +17,7 @@ apt install gnupg2 -y
 dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
 apt update
 apt-get install percona-server-server-5.7 -y
-echo ":v"
+service mysql status
 ```
 
 
