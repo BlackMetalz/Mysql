@@ -4,11 +4,6 @@
 
 `
 yum install https://repo.percona.com/yum/percona-release-latest.noarch.rpm -y
-`
-
-You can now install Percona Server by running:
-
-`
 yum install Percona-Server-server-57 -y
 `
 
@@ -20,15 +15,7 @@ yum install Percona-Server-server-57 -y
 wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
 apt install gnupg2 -y
 dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
-```
-
-### 2.2 Remember to update the local cache
-```
 apt update
-```
-
-### 2.3 After that you can install the server package
-```
 apt-get install percona-server-server-5.7 -y
 ```
 
