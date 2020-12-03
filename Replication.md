@@ -8,14 +8,6 @@ If server is ubuntu. Copy this https://github.com/BlackMetalz/Mysql/blob/master/
 ## /etc/mysql/conf.d/mysql.cnf ( mysql community server 5.7 )
 ## /etc/mysql/percona-server.conf.d/mysqld.cnf ( percona server 5.7 )
 
--- Create folder for change data dir mysql
-```
-mkdir -p /data/var/lib/mysql
-mkdir -p /data/var/log/mysql/mysql-bin/
-mkdir -p /data/temp
-chown -R mysql: /data/var/lib/mysql /data/var/log/mysql /data/temp
-```
-
 Step by step:
 Master IP: 10.0.0.254
 Slave IP: 10.5.0.253
