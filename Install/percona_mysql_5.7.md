@@ -24,7 +24,7 @@ service mysql status
 ### Install Percona Toolkit using the corresponding package manager:
 Description: Toolkit have some advantage for manage mysql server
 
-For Debian or Ubuntu:
+For Debian or Ubuntu 18:
 
 ```
 apt install percona-toolkit percona-xtrabackup-24 -y
