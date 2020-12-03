@@ -29,6 +29,10 @@ For Debian or Ubuntu 18:
 ```
 apt install percona-toolkit percona-xtrabackup-24 -y
 ```
+For Ubuntu 20 with same 
+```
+wget https://downloads.percona.com/downloads/Percona-XtraBackup-2.4/Percona-XtraBackup-2.4.21/binary/debian/focal/x86_64/percona-xtrabackup-24_2.4.21-1.focal_amd64.deb
+```
 
 For RHEL or CentOS:
 
