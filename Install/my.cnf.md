@@ -18,7 +18,7 @@ chown -R mysql: /data/var/lib/mysql /data/var/log/mysql /data/temp
 ```
 
 # Config file default
-- /etc/mysql/conf.d/mysql.cnf  or /etc/mysql/mysql.conf.d/  ( mysql community server 5.7 )
+- /etc/mysql/conf.d/mysql.cnf  or /etc/mysql/mysql.conf.d/mysqld.cnf  ( mysql community server 5.7 )
 - /etc/mysql/percona-server.conf.d/mysqld.cnf ( percona server 5.7 )
 
 ```
@@ -92,8 +92,8 @@ log-error                      = /data/var/log/mysql/mysql-error.log
 log-queries-not-using-indexes  = 1
 slow-query-log                 = 1
 slow-query-log-file            = /data/var/log/mysql/mysql-slow.log
-general_log_file               = /data/var/log/mysql/query.log
-general_log                    = 1
+#general_log_file               = /data/var/log/mysql/query.log
+#general_log                    = 1
 
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
