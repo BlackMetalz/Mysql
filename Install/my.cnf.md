@@ -18,8 +18,8 @@ chown -R mysql: /data/var/lib/mysql /data/var/log/mysql /data/temp
 ```
 
 # Config file default
-/etc/mysql/conf.d/mysql.cnf ( mysql community server 5.7 )
-/etc/mysql/percona-server.conf.d/mysqld.cnf ( percona server 5.7 )
+- /etc/mysql/conf.d/mysql.cnf  or /etc/mysql/mysql.conf.d/  ( mysql community server 5.7 )
+- /etc/mysql/percona-server.conf.d/mysqld.cnf ( percona server 5.7 )
 
 ```
 [client]
