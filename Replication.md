@@ -15,7 +15,8 @@ Slave IP: 10.5.0.253
 Step 1:
 Slave
 ```
-Delete /data/var/lib/mysql in slave data before sync
+# Delete /data/var/lib/mysql in slave data before sync
+rm -rf /data/var/lib/mysql/*
 cd /data/var/lib/mysql 
 nc -l 9999 | xbstream -xv
 ```
